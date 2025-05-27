@@ -1,4 +1,3 @@
-#Zhu Haoxing 24099372d Ye Yutao 24100332d
 from RPLCD.i2c import CharLCD
 import threading
 import signal
@@ -203,6 +202,7 @@ try:
             lcd.cursor_pos = (1,3)
             lcd.write_string("SW2: JUMP")
         if flag and start_game_check:
+            time_set = max(0.5-0.03*score_cnt,0.3)
             lcd.clear()
             flag = False
             if jumping:
@@ -216,7 +216,7 @@ try:
             if len(scene_list) == 0:
                 add_scene()
             elif (15 - scene_list[0].x)>=3:
-                check_if_add = random.randint(0,2)
+                check_if_add = random.randint(0,1)
                 if check_if_add == 0:
                     add_scene()
             for i in scene_list:
@@ -229,7 +229,7 @@ try:
                     lcd.clear()
                     lcd.cursor_pos = (0,3)
                     lcd.write_string("GAME OVER")
-                    lcd.cursor_pos = (1,0)
+                    lcd.cursor_pos = (1,(15-len("SCORE:"+str(score_cnt)))//2)
                     lcd.write_string("SCORE:"+str(score_cnt))
                     time_set = 0.2
                     while not checkFlag:
